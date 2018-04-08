@@ -29,19 +29,21 @@ class Interpreter:
 		else:
 			curr_char=self.text[self.pos]
 
-	def error(self):
+	def error(self):#Error method for reporting errors
 		raise Exception('wrong')		
-	def ignore_white(self):
+	def ignore_white(self):#Method for detecting white pscaes
 		'''Ignore white spaces'''
 		while self.curr_char.isspace() and self.curr_char is not None:
-			self.advance()			
-	def integer(self):
+			self.advance()	#increment and do nothing until whitespace		
+	def integer(self):#Integer method to detect integer values
 		result=''
 		while self.curr_char.isdigit() and self.curr_char is not None:
 			result=result+self.curr_char
 			self.advance()	
 		return int(result)			
-	def get_next_token(self):
+	#LEXER
+	
+	def get_next_token(self):#Method to get tokens 
 		while self.curr_char is not None:
 			if self.curr_char.isspace():
 				self.ignore_white()
@@ -62,7 +64,7 @@ class Interpreter:
 				
 		return Token(EOF,None)
 
-	def match(self,token_type):
+	def match(self,token_type):#Taking every token and matching it wether is ita valid token or not
 		if self.curr_token.type==token_type:
 			self.curr_token=get_next_token()
 		else:
@@ -73,7 +75,7 @@ class Interpreter:
 		self.match(INT)
 		return token.value
 
-	def expr(self):
+	def expr(self):#Method to evaluate expression
 		self.curr_token=get_next_token()
 
 		result=self.term()
